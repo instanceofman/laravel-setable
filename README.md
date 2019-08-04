@@ -7,7 +7,7 @@ php artisan setable:setup
 
 ### Native helper 
 ```php
-config('setable.auto_publish')
+config('setable.auto_publish'); // true
 ```
 
 ### Easy to edit
