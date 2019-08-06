@@ -4,7 +4,7 @@ namespace Isofman\LaravelSetable;
 use Illuminate\Support\ServiceProvider;
 use Isofman\LaravelSetable\Commands;
 
-class LaravelSetableServiceProvider extends ServiceProvider
+class SetableServiceProvider extends ServiceProvider
 {
     public function register()
     {
@@ -28,9 +28,19 @@ class LaravelSetableServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        if($this->app->runningInConsole()) {
+            $this->registerConfig();
+        }
+
         $this->loadSettings();
     }
 
+    public function registerConfig()
+    {
+        $this->publishes([
+            __DIR__ . '/setable.php' => config_path('setable.php')
+        ], 'setable-config');
+    }
 
     protected function loadSettings()
     {

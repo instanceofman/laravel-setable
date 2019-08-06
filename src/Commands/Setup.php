@@ -21,11 +21,24 @@ class Setup extends Command
     {
         $table = config('setable.table');
 
+        if(!$table) {
+            $this->error("Please run `php artisan vendor:publish` to copy config file before setup.");
+            return false;
+        }
+
         if ($exists = Schema::hasTable($table)) {
-            return;
+            return $this->success();
         }
 
         $this->runMigration($table);
+
+        return $this->success();
+    }
+
+    protected function success()
+    {
+        $this->info('Setup setable successfully!');
+        return true;
     }
 
     protected function runMigration($table)
